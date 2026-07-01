@@ -1,0 +1,54 @@
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    outline: 1px solid black;
+}
+
+.gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+img {
+
+    display: block;
+    width: 100%;
+}
+
+.stats {
+
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photo-card {
+    outline: 1px solid grey;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 500ms;
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.search-form {
+    width: 500px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+
+    display: block;
+}
