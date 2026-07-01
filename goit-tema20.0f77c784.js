@@ -207,11 +207,11 @@
       });
     }
   }
-})({"eRUbr":[function(require,module,exports,__globalThis) {
+})({"i661j":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 64547;
+var HMR_SERVER_PORT = 49218;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
@@ -714,7 +714,100 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"2R06K":[function(require,module,exports,__globalThis) {
+const URL = "https://pixabay.com/api/";
+const API_KEY = "56145635-1dfedf23379adae5fa585b845";
+let search = "";
+let limit = 12;
+let page = 1;
+let per_page = 20;
+const formEl = document.querySelector(".search-form");
+const galeryEl = document.querySelector(".gallery");
+const divEl = document.querySelector(".elements");
+// fetch(`${URL}?key=${API_KEY}&q=${search}&page=${page}&per_page=${per_page}`)
+// .then(res => res.json())
+// .then(res => console.log(res))
+async function getImages(search, page) {
+    const res = await fetch(`${URL}?key=${API_KEY}&q=${search}&page=${page}&per_page=${limit}`);
+    const data = await res.json();
+    return data;
+}
+formEl.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    search = e.currentTarget.elements.query.value;
+    const res = await getImages(search, page);
+    // console.log(getImages(search, page));
+    await renderImages(res.hits);
+});
+// Тобі цікаві такі властивості:
+// webformatURL - посилання на маленьке зображення для списку карток
+// largeImageURL - посилання на велике зображення (дивись пункт 'додатково')
+// likes - кількість лайків
+// views - кількість переглядів
+// comments - кількість коментарів
+// downloads - кількість завантажень
+function renderImages(array) {
+    const item = array.map(({ webformatURL, largeImageURL, likes, views, comments, downloads, tags })=>{
+        return `    
+                <li class="photo-card">
 
-},{}]},["eRUbr","2R06K"], "2R06K", "parcelRequirec6c7", {})
+  <img src="${webformatURL}" alt="${tags}" />
+
+
+
+  <div class="stats">
+
+    <p class="stats-item">
+
+      <i class="material-icons">thumb_up</i>
+
+      ${likes}
+
+    </p>
+
+    <p class="stats-item">
+
+      <i class="material-icons">visibility</i>
+
+      ${views}
+
+    </p>
+
+    <p class="stats-item">
+
+      <i class="material-icons">comment</i>
+
+      ${comments}
+
+    </p>
+
+    <p class="stats-item">
+
+      <i class="material-icons">cloud_download</i>
+
+      ${downloads}
+
+    </p>
+
+  </div>
+
+</li>`;
+    }).join("");
+    galeryEl.insertAdjacentHTML("beforeend", item);
+}
+const observer = new IntersectionObserver((entry)=>{
+    console.log(entry);
+    entry.forEach(async (e)=>{
+        if (e.isIntersecting && search !== "") {
+            page += 1;
+            const res = await getImages(search, page);
+            await renderImages(res.hits);
+        }
+    });
+}, {
+    rootMargin: "200px"
+});
+observer.observe(divEl);
+
+},{}]},["i661j","2R06K"], "2R06K", "parcelRequirec6c7", {})
 
 //# sourceMappingURL=goit-tema20.0f77c784.js.map
