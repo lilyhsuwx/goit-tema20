@@ -207,11 +207,11 @@
       });
     }
   }
-})({"i661j":[function(require,module,exports,__globalThis) {
+})({"7wZbQ":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 49218;
+var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
@@ -714,6 +714,9 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"2R06K":[function(require,module,exports,__globalThis) {
+var _basiclightbox = require("basiclightbox");
+var _basicLightboxMinCss = require("basiclightbox/dist/basicLightbox.min.css");
+let instance = null;
 const URL = "https://pixabay.com/api/";
 const API_KEY = "56145635-1dfedf23379adae5fa585b845";
 let search = "";
@@ -722,7 +725,7 @@ let page = 1;
 let per_page = 20;
 const formEl = document.querySelector(".search-form");
 const galeryEl = document.querySelector(".gallery");
-const divEl = document.querySelector(".elements");
+const divEl = document.querySelector(".element");
 // fetch(`${URL}?key=${API_KEY}&q=${search}&page=${page}&per_page=${per_page}`)
 // .then(res => res.json())
 // .then(res => console.log(res))
@@ -750,7 +753,7 @@ function renderImages(array) {
         return `    
                 <li class="photo-card">
 
-  <img src="${webformatURL}" alt="${tags}" />
+  <img src="${webformatURL}" alt="${tags}" data-src="${largeImageURL}"/>
 
 
 
@@ -795,7 +798,7 @@ function renderImages(array) {
     galeryEl.insertAdjacentHTML("beforeend", item);
 }
 const observer = new IntersectionObserver((entry)=>{
-    console.log(entry);
+    // console.log(entry);
     entry.forEach(async (e)=>{
         if (e.isIntersecting && search !== "") {
             page += 1;
@@ -807,7 +810,131 @@ const observer = new IntersectionObserver((entry)=>{
     rootMargin: "200px"
 });
 observer.observe(divEl);
+galeryEl.addEventListener("click", (e)=>{
+    if (e.target.nodeName !== "IMG") return;
+    // console.log(e.target.dataset.src);
+    const largeImg = e.target.dataset.src;
+    instance = _basiclightbox.create(`
+    <div class="modal">
+       <img src="${largeImg}" alt="#"/>
+    </div>
+  `);
+    instance.show();
+    if (instance) document.addEventListener("keydown", closeModal);
+});
+if (!instance) document.removeEventListener("keydown", closeModal);
+function closeModal(e) {
+    if (e.key === "Escape") {
+        instance.close();
+        instance = null;
+    }
+}
 
-},{}]},["i661j","2R06K"], "2R06K", "parcelRequirec6c7", {})
+},{"basiclightbox":"io0Ts","basiclightbox/dist/basicLightbox.min.css":"lf3c2"}],"io0Ts":[function(require,module,exports,__globalThis) {
+!function(e) {
+    module.exports = e();
+}(function() {
+    return (function e(n, t, o) {
+        function r(c, u) {
+            if (!t[c]) {
+                if (!n[c]) {
+                    var s = undefined;
+                    if (!u && s) return s(c, !0);
+                    if (i) return i(c, !0);
+                    var a = new Error("Cannot find module '" + c + "'");
+                    throw a.code = "MODULE_NOT_FOUND", a;
+                }
+                var l = t[c] = {
+                    exports: {}
+                };
+                n[c][0].call(l.exports, function(e) {
+                    return r(n[c][1][e] || e);
+                }, l, l.exports, e, n, t, o);
+            }
+            return t[c].exports;
+        }
+        for(var i = undefined, c = 0; c < o.length; c++)r(o[c]);
+        return r;
+    })({
+        1: [
+            function(e, n, t) {
+                "use strict";
+                Object.defineProperty(t, "__esModule", {
+                    value: !0
+                }), t.create = t.visible = void 0;
+                var o = function(e) {
+                    var n = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], t = document.createElement("div");
+                    return t.innerHTML = e.trim(), !0 === n ? t.children : t.firstChild;
+                }, r = function(e, n) {
+                    var t = e.children;
+                    return 1 === t.length && t[0].tagName === n;
+                }, i = function(e) {
+                    return null != (e = e || document.querySelector(".basicLightbox")) && !0 === e.ownerDocument.body.contains(e);
+                };
+                t.visible = i;
+                t.create = function(e, n) {
+                    var t = function(e, n) {
+                        var t = o('\n\t\t<div class="basicLightbox '.concat(n.className, '">\n\t\t\t<div class="basicLightbox__placeholder" role="dialog"></div>\n\t\t</div>\n\t')), i = t.querySelector(".basicLightbox__placeholder");
+                        e.forEach(function(e) {
+                            return i.appendChild(e);
+                        });
+                        var c = r(i, "IMG"), u = r(i, "VIDEO"), s = r(i, "IFRAME");
+                        return !0 === c && t.classList.add("basicLightbox--img"), !0 === u && t.classList.add("basicLightbox--video"), !0 === s && t.classList.add("basicLightbox--iframe"), t;
+                    }(e = function(e) {
+                        var n = "string" == typeof e, t = e instanceof HTMLElement == 1;
+                        if (!1 === n && !1 === t) throw new Error("Content must be a DOM element/node or string");
+                        return !0 === n ? Array.from(o(e, !0)) : "TEMPLATE" === e.tagName ? [
+                            e.content.cloneNode(!0)
+                        ] : Array.from(e.children);
+                    }(e), n = function() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                        if (null == (e = Object.assign({}, e)).closable && (e.closable = !0), null == e.className && (e.className = ""), null == e.onShow && (e.onShow = function() {}), null == e.onClose && (e.onClose = function() {}), "boolean" != typeof e.closable) throw new Error("Property `closable` must be a boolean");
+                        if ("string" != typeof e.className) throw new Error("Property `className` must be a string");
+                        if ("function" != typeof e.onShow) throw new Error("Property `onShow` must be a function");
+                        if ("function" != typeof e.onClose) throw new Error("Property `onClose` must be a function");
+                        return e;
+                    }(n)), c = function(e) {
+                        return !1 !== n.onClose(u) && function(e, n) {
+                            return e.classList.remove("basicLightbox--visible"), setTimeout(function() {
+                                return !1 === i(e) || e.parentElement.removeChild(e), n();
+                            }, 410), !0;
+                        }(t, function() {
+                            if ("function" == typeof e) return e(u);
+                        });
+                    };
+                    !0 === n.closable && t.addEventListener("click", function(e) {
+                        e.target === t && c();
+                    });
+                    var u = {
+                        element: function() {
+                            return t;
+                        },
+                        visible: function() {
+                            return i(t);
+                        },
+                        show: function(e) {
+                            return !1 !== n.onShow(u) && function(e, n) {
+                                return document.body.appendChild(e), setTimeout(function() {
+                                    requestAnimationFrame(function() {
+                                        return e.classList.add("basicLightbox--visible"), n();
+                                    });
+                                }, 10), !0;
+                            }(t, function() {
+                                if ("function" == typeof e) return e(u);
+                            });
+                        },
+                        close: c
+                    };
+                    return u;
+                };
+            },
+            {}
+        ]
+    }, {}, [
+        1
+    ])(1);
+});
+
+},{}],"lf3c2":[function() {},{}]},["7wZbQ","2R06K"], "2R06K", "parcelRequirec6c7", {})
 
 //# sourceMappingURL=goit-tema20.0f77c784.js.map
