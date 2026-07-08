@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx parcel src/index.html",
-    "build": "parcel build src/index.html --public-url /goit-tema19/",
+    "build": "parcel build src/index.html --public-url /goit-tema20/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/lilyhsuwx/goit-tema20/issues"
   },
-  "homepage": "https://github.com/lilyhsuwx/goit-tema20#readme",
+  "homepage": "https://lilyhsuwx.github.io/goit-tema20/",
   "devDependencies": {
     "parcel": "^2.16.4"
   },
